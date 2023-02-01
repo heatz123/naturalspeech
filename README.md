@@ -39,7 +39,7 @@ Naturalspeech is a VAE-based model that employs several techniques to improve th
     ```
 
 1. clone this repository
-1. download `The LJ Speech Dataset`: [link](https://keithito.com/LJ-Speech-Dataset/)
+1. download **The LJ Speech Dataset**: [link](https://keithito.com/LJ-Speech-Dataset/)
 1. create symbolic link to ljspeech dataset: 
     ```
     ln -s /path/to/LJSpeech-1.1/wavs/ DUMMY1
@@ -52,6 +52,7 @@ Naturalspeech is a VAE-based model that employs several techniques to improve th
         ```
 
 1. duration preprocessing (obtain duration labels using pretrained VITS):
+    > If you want to skip this section, use `durations/durations.tar.bz2` and overwrite the `durations` folder.
     1. `git clone https://github.com/jaywalnut310/vits.git; cd vits`
     2. create symbolic link to ljspeech dataset 
         ```
@@ -73,13 +74,13 @@ Naturalspeech is a VAE-based model that employs several techniques to improve th
     ```
     python3 train.py -c configs/ljs.json -m [run_name] --warmup
     ```
-    Note here that ljs.json is for low-resource training, which runs for 1500 epochs and does not use soft-dtw loss. If you want to reproduce the steps stated in the paper, use ljs_reproduce.json, which runs for 15000 epochs and uses soft-dtw loss.
+    Note here that `ljs.json` is for low-resource training, which runs for 1500 epochs and does not use soft-dtw loss. If you want to reproduce the steps stated in the paper, use `ljs_reproduce.json`, which runs for 15000 epochs and uses soft-dtw loss.
 
 1. initialize and attach memory bank after warmup:
     ```
       python3 attach_memory_bank.py -c configs/ljs.json --weights_path logs/[run_name]/G_xxx.pth
     ```
-    if you lack memory, you can specify the "--num_samples" argument to use only a subset of samples.
+    if you lack memory, you can specify the `--num_samples` argument to use only a subset of samples.
 
 1. train (resume)
     ```
