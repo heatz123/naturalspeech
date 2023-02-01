@@ -19,15 +19,13 @@ Naturalspeech is a VAE-based model that employs several techniques to improve th
 
 
 ### Notes
-- This implementation does not include pre-training of phonemes using a large-scale text corpus from the news-crawl dataset.
-- The multiplier for each loss can be adjusted in the configuration file. Using losses without a multiplier may not lead to convergence.
-- The tuning stage for the last 2k epochs has been omitted.
-- Due to the high VRAM usage of the soft-dtw loss, there is an option to use a non-softdtw loss for memory efficiency.
-- For the soft-dtw loss, the warp factor has been set to 134.4 (0.07 * 192) to match the non-softdtw loss, instead of 0.07.
-- To train the duration predictor in the warm-up stage, duration labels are required. The paper suggests using any tool to provide the duration label. In this implementation, a pre-trained VITS model was used.
-- To further improve memory efficiency during training, randomly silced sequences are fed to the decoder as in the VITS model.
-
-
+1. Phoneme pre-training with large-scale text corpus from the news-crawl dataset is omitted in this implementation.
+2. Multiplier for each loss is denoted and can be adjusted in config, as using losses with no multiplier doesn't seem to converge.
+3. Tuning stage for last 2k epochs is omitted.
+4. As soft-dtw loss uses quite a lot of VRAM, there is an option for using non-softdtw loss.
+5. For soft-dtw loss, warp is set to 134.4(=0.07 * 192), not 0.07, to match with non-softdtw loss.
+6. To train the duration predictor in the warmup stage, duration labels are needed. As stated in the paper, you can choose any tools to provide duration label. Here I used pretrained VITS model. 
+7. For memory efficient training, partial sequences are fed to decoder as in VITS.
 
 
 ### How to train
