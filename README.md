@@ -4,7 +4,7 @@ This is an implementation of Microsoft's [NaturalSpeech: End-to-End Text to Spee
 
 Contribution and pull requests are highly appreciated!
 
-23.02.01: Pretrained models or demo samples will soon be released.
+23.02.09: Demo samples (using the first 1800 epochs) are out. [(link)](https://github.com/heatz123/naturalspeech/wiki)
 
 
 ### Overview
