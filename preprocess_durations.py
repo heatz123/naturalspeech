@@ -209,7 +209,7 @@ if __name__ == "__main__":
         dataset = TextAudioLoaderWithPath(filelist, hps.data)
         dataloader = DataLoader(
             dataset,
-            batch_size=1,
+            batch_size=16,
             shuffle=False,
             pin_memory=False,
             collate_fn=TextAudioCollateWithPath(),
@@ -228,7 +228,6 @@ if __name__ == "__main__":
                 x, x_lengths = x.cuda(0), x_lengths.cuda(0)
                 spec, spec_lengths = spec.cuda(0), spec_lengths.cuda(0)
                 y, y_lengths = y.cuda(0), y_lengths.cuda(0)
-                (path,) = paths
 
                 (
                     y_hat,
@@ -243,8 +242,8 @@ if __name__ == "__main__":
                 w = attn.sum(2).flatten()
                 x = x.flatten()
 
-                save_path = os.path.join("durations", os.path.basename(path) + ".npy")
-                np.save(save_path, w.cpu().numpy().astype(int))
+                ws = [attn[idx,:,:spec_length,:x_length].sum(1).flatten() for idx, (spec_length, x_length) in enumerate(zip(spec_lengths, x_lengths))]
 
-                if batch_idx % 100 == 0:
-                    print(f"{batch_idx} / {len(dataloader)}")
+                for w, path in zip(ws, paths):
+                    save_path = os.path.join("durations", os.path.basename(path) + ".npy")
+                    np.save(save_path, w.cpu().numpy().astype(int))
